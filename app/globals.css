@@ -24,3 +24,48 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Ensure inputs use the dark card background and prevent browser autofill from showing a light fill */
+input,
+textarea,
+select {
+  background-color: #1a1a24;
+  color: #ffffff;
+  border-radius: 12px;
+  -webkit-text-fill-color: #ffffff;
+}
+
+/* Chrome / Safari autofill override */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #1a1a24 inset !important;
+  box-shadow: 0 0 0px 1000px #1a1a24 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid transparent !important;
+  caret-color: #ffffff !important;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #1a1a24 inset !important;
+  box-shadow: 0 0 0px 1000px #1a1a24 inset, 0 0 0px 4px rgba(120,100,255,0.06) !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid rgba(120,100,255,0.6) !important;
+}
+
+/* Firefox autofill override */
+input:-moz-autofill,
+textarea:-moz-autofill,
+select:-moz-autofill {
+  box-shadow: 0 0 0px 1000px #1a1a24 inset !important;
+  -moz-text-fill-color: #ffffff !important;
+  border: 1px solid transparent !important;
+}
+
+input:-moz-autofill:focus {
+  box-shadow: 0 0 0px 1000px #1a1a24 inset, 0 0 0px 4px rgba(120,100,255,0.06) !important;
+  -moz-text-fill-color: #ffffff !important;
+  border: 1px solid rgba(120,100,255,0.6) !important;
+}
+

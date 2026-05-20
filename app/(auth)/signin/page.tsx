@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import AuthCard from "../_components/AuthCard";
 import { AuthInput, AuthButton } from "../_components/AuthInput";
 
@@ -46,21 +47,26 @@ export default function SignInPage() {
           />
           {/* Forgot Password - right aligned */}
           <div className="flex justify-end">
-            <span
-              onClick={() => router.push("/forgot-password")}
+            <Link
+              href="/forgot-password"
               style={{
                 color: "rgba(255,255,255,0.4)",
                 fontSize: "13px",
                 cursor: "pointer",
                 marginTop: "6px",
+                textDecoration: "underline",
               }}
-              onMouseEnter={(e) => (e.target.style.color = "#7b68ee")}
-              onMouseLeave={(e) =>
-                (e.target.style.color = "rgba(255,255,255,0.4)")
-              }
+              onMouseEnter={(e) => {
+                const target = e.currentTarget as HTMLElement;
+                target.style.color = "#7b68ee";
+              }}
+              onMouseLeave={(e) => {
+                const target = e.currentTarget as HTMLElement;
+                target.style.color = "rgba(255,255,255,0.4)";
+              }}
             >
               Forgot password?
-            </span>
+            </Link>
           </div>
         </div>
       </div>
@@ -104,12 +110,12 @@ export default function SignInPage() {
         }}
       >
         Don&apos;t have an account?{" "}
-        <span
-          onClick={() => router.push("/signup")}
-          style={{ color: "#7b68ee", cursor: "pointer", fontWeight: 500 }}
+        <Link
+          href="/signup"
+          style={{ color: "#7b68ee", cursor: "pointer", fontWeight: 500, textDecoration: "none" }}
         >
           Sign Up
-        </span>
+        </Link>
       </p>
     </AuthCard>
   );

@@ -19,7 +19,7 @@ export function AuthInput({ label, type = "text", placeholder, value, onChange }
           onChange={onChange}
           style={{
             backgroundColor: "#1a1a24",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid transparent",
             borderRadius: "12px",
             color: "#ffffff",
             fontSize: "14px",
@@ -30,9 +30,11 @@ export function AuthInput({ label, type = "text", placeholder, value, onChange }
           }}
           onFocus={(e) => {
             e.target.style.border = "1px solid rgba(120,100,255,0.6)";
+            e.target.style.boxShadow = "0 0 0 4px rgba(120,100,255,0.06)";
           }}
           onBlur={(e) => {
-            e.target.style.border = "1px solid rgba(255,255,255,0.1)";
+            e.target.style.border = "1px solid transparent";
+            e.target.style.boxShadow = "none";
           }}
         />
         {isPassword && (

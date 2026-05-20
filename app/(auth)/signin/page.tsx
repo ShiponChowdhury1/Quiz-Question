@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AuthCard from "../_components/AuthCard";
@@ -34,7 +34,7 @@ export default function SignInPage() {
           type="email"
           placeholder="Email"
           value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })}
         />
 
         <div className="flex flex-col gap-1">
@@ -43,7 +43,7 @@ export default function SignInPage() {
             type="password"
             placeholder="Password"
             value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })}
           />
           {/* Forgot Password - right aligned */}
           <div className="flex justify-end">

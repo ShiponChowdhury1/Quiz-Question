@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
   const router = useRouter();
 
   return (
-    <div style={{ padding: "40px 60px", maxWidth: "900px", width: "100%", boxSizing: "border-box" }}>
+    <div style={{ padding: "40px 60px", maxWidth: "900px", width: "100%", boxSizing: "border-box" as const }}>
       {/* Title */}
       <h1 style={{ color: "#fff", fontSize: "28px", fontWeight: 700, margin: "0 0 12px" }}>Privacy policy</h1>
       <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px", lineHeight: 1.6, margin: "0 0 28px", maxWidth: "700px" }}>

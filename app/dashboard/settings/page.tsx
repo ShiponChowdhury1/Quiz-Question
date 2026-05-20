@@ -25,7 +25,7 @@ const subjects = [
   { id: "economics", name: "Economics", icon: "📊" },
 ];
 
-const cardStyle = {
+const cardStyle: React.CSSProperties = {
   backgroundColor: "#111118",
   border: "1px solid rgba(255,255,255,0.05)",
   borderRadius: "16px",
@@ -34,7 +34,7 @@ const cardStyle = {
   boxSizing: "border-box",
 };
 
-const inputStyle = {
+const inputStyle: React.CSSProperties = {
   width: "100%",
   padding: "11px 14px",
   backgroundColor: "#0A0A0F",
@@ -54,7 +54,12 @@ const labelStyle = {
   display: "block",
 };
 
-function Toggle({ active, onClick }) {
+interface ToggleProps {
+  active: boolean;
+  onClick: () => void;
+}
+
+function Toggle({ active, onClick }: ToggleProps) {
   return (
     <div
       onClick={onClick}
@@ -83,7 +88,7 @@ export default function SettingsPage() {
   const [email, setEmail] = useState("");
   const [chatHistoryExport, setChatHistoryExport] = useState(true);
 
-  const toggleSubject = (id) => {
+  const toggleSubject = (id: string) => {
     setSelectedSubjects((prev) =>
       prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
     );

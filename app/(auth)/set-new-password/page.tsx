@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import AuthCard from "../_components/AuthCard";
 import { AuthInput, AuthButton } from "../_components/AuthInput";
@@ -20,14 +20,14 @@ export default function SetNewPasswordPage() {
           type="password"
           placeholder="New Password"
           value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })}
         />
         <AuthInput
           label="Confirm New Password"
           type="password"
           placeholder="Confirm New Password"
           value={form.confirmPassword}
-          onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setForm({ ...form, confirmPassword: e.target.value })}
         />
       </div>
 

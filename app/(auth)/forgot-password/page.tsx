@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AuthCard from "../_components/AuthCard";
@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
           type="email"
           placeholder="Enter your email"
           value={email}
-          onChange={(e: any) => setEmail(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         />
       </div>
 

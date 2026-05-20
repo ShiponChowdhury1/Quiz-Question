@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import AuthCard from "../_components/AuthCard";
 import { AuthButton } from "../_components/AuthInput";
@@ -8,7 +8,7 @@ export default function VerifyOTPPage() {
   const router = useRouter();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(45);
-  const inputs = useRef([]);
+  const inputs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
     if (timer <= 0) return;
@@ -16,7 +16,7 @@ export default function VerifyOTPPage() {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handleChange = (i, val) => {
+  const handleChange = (i: number, val: string) => {
     if (!/^\d?$/.test(val)) return;
     const newOtp = [...otp];
     newOtp[i] = val;
@@ -24,7 +24,7 @@ export default function VerifyOTPPage() {
     if (val && i < 5) inputs.current[i + 1]?.focus();
   };
 
-  const handleKeyDown = (i, e) => {
+  const handleKeyDown = (i: number, e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && !otp[i] && i > 0) inputs.current[i - 1]?.focus();
   };
 
@@ -44,11 +44,11 @@ export default function VerifyOTPPage() {
         {otp.map((digit, i) => (
           <input
             key={i}
-            ref={(el) => (inputs.current[i] = el)}
+            ref={(el) => { inputs.current[i] = el; }}
             maxLength={1}
             value={digit}
-            onChange={(e) => handleChange(i, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(i, e)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(i, e.target.value)}
+            onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(i, e)}
             style={{
               width: "52px",
               height: "56px",

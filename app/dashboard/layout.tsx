@@ -16,7 +16,7 @@ export default function DashboardLayout({
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#0A0A0F" }}>
       <Sidebar onLogout={() => setShowLogoutModal(true)} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <TopNavbar />
+        <TopNavbar onLogout={() => setShowLogoutModal(true)} />
         <main style={{ flex: 1, overflowY: "auto", overflowX: "hidden", display: "flex", flexDirection: "column" }}>
           <div style={{ flex: 1 }}>
             {children}

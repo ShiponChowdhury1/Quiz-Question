@@ -4,14 +4,37 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AuthCard from "../_components/AuthCard";
 import { AuthInput, AuthButton } from "../_components/AuthInput";
+import { useMutation } from "@tanstack/react-query";
+import { signup } from "../_lib/api";
+import { setPendingEmail } from "../_lib/authStorage";
 
 export default function SignUpPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "", confirmPassword: "" });
+  const [error, setError] = useState("");
+
+  const signupMutation = useMutation({
+    mutationFn: ({ email, password }) => signup(email, password),
+    onSuccess: () => {
+      setPendingEmail(form.email);
+      router.push("/verify-otp");
+    },
+    onError: (err) => {
+      setError(err?.message || "Signup failed.");
+    },
+  });
 
   const handleSubmit = () => {
-    // API call here
-    router.push("/verify-otp");
+    setError("");
+    if (!form.email || !form.password || !form.confirmPassword) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    signupMutation.mutate({ email: form.email, password: form.password });
   };
 
   return (
@@ -46,7 +69,15 @@ export default function SignUpPage() {
         />
       </div>
 
-      <AuthButton onClick={handleSubmit}>Create Account</AuthButton>
+      {error && (
+        <p style={{ color: "#ff6b6b", fontSize: "13px", margin: "-10px 0 0", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
+
+      <AuthButton onClick={handleSubmit} disabled={signupMutation.isPending}>
+        {signupMutation.isPending ? "Creating..." : "Create Account"}
+      </AuthButton>
 
       <div className="text-center" style={{ marginTop: "-10px" }}>
         <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "13px", margin: "0 0 8px" }}>or</p>

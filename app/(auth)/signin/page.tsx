@@ -4,14 +4,33 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AuthCard from "../_components/AuthCard";
 import { AuthInput, AuthButton } from "../_components/AuthInput";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../_lib/api";
+import { setAuthTokens } from "../_lib/authStorage";
 
 export default function SignInPage() {
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const loginMutation = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
+    onSuccess: (data) => {
+      setAuthTokens({ access: data.data.access, refresh: data.data.refresh });
+      router.push("/dashboard");
+    },
+    onError: (err: Error) => {
+      setError(err?.message || "Login failed.");
+    },
+  });
 
   const handleSubmit = () => {
-    // API call here
-    router.push("/dashboard");
+    setError("");
+    if (!form.email || !form.password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+    loginMutation.mutate({ email: form.email, password: form.password });
   };
 
   return (
@@ -71,7 +90,15 @@ export default function SignInPage() {
         </div>
       </div>
 
-      <AuthButton onClick={handleSubmit}>Sign In</AuthButton>
+      {error && (
+        <p style={{ color: "#ff6b6b", fontSize: "13px", margin: "-10px 0 0", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
+
+      <AuthButton onClick={handleSubmit} disabled={loginMutation.isPending}>
+        {loginMutation.isPending ? "Signing in..." : "Sign In"}
+      </AuthButton>
 
       {/* Divider */}
       <div

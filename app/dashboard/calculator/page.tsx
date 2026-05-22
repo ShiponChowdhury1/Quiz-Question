@@ -3,7 +3,7 @@ import { useState } from "react";
 import { evaluate } from "mathjs";
 import ModelSelector from "../_components/ModelSelector";
 
-const tabs = ["Basic", "Functions ˅", "abc ˅", "symbols ˅"];
+// tabs removed per request
 
 const buttons = [
   ["x", "y", "z", "x^2", "sqrt", "a/b", "mixed"],
@@ -17,7 +17,6 @@ const purpleKeys = ["+", "-", "×", "/"];
 
 export default function CalculatorPage() {
   const [expression, setExpression] = useState("ax^2 + bx + c = 0");
-  const [activeTab, setActiveTab] = useState("Basic");
   const [message, setMessage] = useState("");
 
   const handleKey = (key: string) => {
@@ -109,35 +108,7 @@ export default function CalculatorPage() {
           overflow: "hidden",
         }}
       >
-        {/* Tabs */}
-        <div style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 20px" }}>
-          <div style={{ display: "flex", gap: "0" }}>
-            {tabs.map((tab) => {
-              const tabName = tab.replace(" ˅", "");
-              const isActive = tabName === activeTab;
-              return (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tabName)}
-                  style={{
-                    padding: "14px 18px",
-                    background: "none",
-                    border: "none",
-                    borderBottom: isActive ? "2px solid #7b68ee" : "2px solid transparent",
-                    color: isActive ? "#ffffff" : "rgba(255,255,255,0.4)",
-                    fontSize: "13px",
-                    fontWeight: isActive ? 600 : 400,
-                    cursor: "pointer",
-                    transition: "all 0.15s ease",
-                    marginBottom: "-1px",
-                  }}
-                >
-                  {tab}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        
 
         <div style={{ padding: "20px" }}>
           {/* Expression Display */}

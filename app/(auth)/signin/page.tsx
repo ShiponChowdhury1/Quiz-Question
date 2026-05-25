@@ -100,6 +100,47 @@ export default function SignInPage() {
         {loginMutation.isPending ? "Signing in..." : "Sign In"}
       </AuthButton>
 
+      <a
+        href="https://api.quizquestion.ai/accounts/google/login/"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+          width: "100%",
+          borderRadius: "12px",
+          border: "1px solid rgba(255,255,255,0.08)",
+          backgroundColor: "#15151d",
+          color: "#ffffff",
+          fontSize: "15px",
+          fontWeight: 600,
+          padding: "14px 16px",
+          textDecoration: "none",
+          transition: "all 0.2s ease",
+        }}
+        onMouseEnter={(e) => {
+          const target = e.currentTarget as HTMLElement;
+          target.style.backgroundColor = "#1b1b26";
+          target.style.borderColor = "rgba(255,255,255,0.16)";
+          target.style.transform = "translateY(-1px)";
+        }}
+        onMouseLeave={(e) => {
+          const target = e.currentTarget as HTMLElement;
+          target.style.backgroundColor = "#15151d";
+          target.style.borderColor = "rgba(255,255,255,0.08)";
+          target.style.transform = "translateY(0)";
+        }}
+      >
+        <img
+          src="/images/google.svg"
+          alt="Google"
+          width={18}
+          height={18}
+          style={{ display: "block" }}
+        />
+        Continue with Google
+      </a>
+
       {/* Divider */}
       <div
         style={{

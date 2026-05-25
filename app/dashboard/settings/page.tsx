@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { 
   getProfile, 
-  updateProfile, 
+  updateProfileFormData, 
   type ChatAskModel,
   createParentalRelation, 
   getChildScans, 
@@ -102,7 +102,9 @@ export default function SettingsPage() {
   const [profileName, setProfileName] = useState("");
   const [profileEmail, setProfileEmail] = useState("");
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileDescription, setProfileDescription] = useState("");
+  const [profileBirthDate, setProfileBirthDate] = useState("");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileError, setProfileError] = useState("");
   const [profileSuccess, setProfileSuccess] = useState("");
@@ -170,16 +172,19 @@ export default function SettingsPage() {
   };
 
   const updateProfileMutation = useMutation({
-    mutationFn: () => updateProfile({
+    mutationFn: () => updateProfileFormData({
       name: profileName,
-      image_url: profileImageUrl,
       description: profileDescription,
+      image: profileImageFile,
+      birth_date: profileBirthDate || null,
     }, getAccessToken()),
     onSuccess: (data) => {
       setProfileName(data.data.name || "");
       setProfileEmail(data.data.email || "");
       setProfileImageUrl(data.data.image_url || "");
       setProfileDescription(data.data.description || "");
+      setProfileBirthDate((data.data.birth_date || "").slice(0, 10));
+      setProfileImageFile(null);
       setProfileSuccess("Profile updated successfully.");
       setProfileError("");
       setIsEditingProfile(false);
@@ -206,6 +211,10 @@ export default function SettingsPage() {
       setProfileEmail(profileData?.email || "");
       setProfileImageUrl(profileData?.image_url || "");
       setProfileDescription(profileData?.description || "");
+      setProfileBirthDate((profileData?.birth_date || "").slice(0, 10));
+      setProfileImageFile(null);
+    } else {
+      setProfileImageFile(null);
     }
 
     setIsEditingProfile((prev) => !prev);
@@ -284,15 +293,16 @@ export default function SettingsPage() {
                   )}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <label style={labelStyle}>Profile Image URL</label>
-                  <input
-                    type="text"
-                    placeholder="https://example.com/image.png"
-                    style={inputStyle}
-                    value={profileImageUrl}
-                    onChange={(e) => setProfileImageUrl(e.target.value)}
-                    readOnly={!isEditingProfile}
-                  />
+                  <div>
+                    <label style={labelStyle}>Upload New Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={inputStyle}
+                      onChange={(e) => setProfileImageFile(e.target.files?.[0] || null)}
+                      disabled={!isEditingProfile}
+                    />
+                  </div>
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -315,6 +325,17 @@ export default function SettingsPage() {
                     style={inputStyle}
                     value={profileEmail}
                     readOnly
+                    disabled
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Birth Date (optional)</label>
+                  <input
+                    type="date"
+                    style={inputStyle}
+                    value={profileBirthDate}
+                    onChange={(e) => setProfileBirthDate(e.target.value)}
+                    disabled={!isEditingProfile}
                   />
                 </div>
                 <div>

@@ -1,0 +1,10 @@
+services:
+  web_app_frontend:
+    build: .
+    container_name: web_app_frontend
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_BASE_URL: "https://api.quizquestion.ai"
+      PORT: "3005"
+    ports:
+      - "3005:3005"

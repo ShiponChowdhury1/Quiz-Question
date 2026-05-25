@@ -9,11 +9,11 @@ import { askChat, askChatFormData, type ChatAskModel } from "@/app/(auth)/_lib/a
 // tabs removed per request
 
 const buttons = [
-  ["x", "y", "z", "x^2", "sqrt", "a/b", "mixed"],
+  ["x", "y", "z", "x^2", "sqrt", "a/b", "del"],
   ["7", "8", "9", "+", "e", "ln", "sin"],
   ["4", "5", "6", "-", "pi", "log", "cos"],
   ["1", "2", "3", "×", "(", ")", "tan"],
-  ["0", ".", "/", "←", "→", "del"],
+  ["0", ".", "/", "←", "→"],
 ];
 
 const purpleKeys = ["+", "-", "×", "/"];
@@ -192,7 +192,7 @@ function renderMessageContent(content: string) {
 }
 
 export default function CalculatorPage() {
-  const [expression, setExpression] = useState("ax^2 + bx + c = 0");
+  const [expression, setExpression] = useState("");
   const [message, setMessage] = useState("");
   const [model, setModel] = useState<ChatAskModel>("gpt");
   const [response, setResponse] = useState("");

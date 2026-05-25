@@ -63,6 +63,23 @@ async function requestPatch<T>(path: string, body: Record<string, unknown>, toke
   return data as T;
 }
 
+async function requestPatchFormData<T>(path: string, body: FormData, token?: string): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: "PATCH",
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body,
+  });
+
+  const data = await response.json().catch(() => null);
+  if (!response.ok || data?.success === false) {
+    throw new ApiError(data?.message || "Request failed", data?.data || null);
+  }
+
+  return data as T;
+}
+
 export type AuthTokens = {
   access: string;
   refresh?: string;
@@ -146,6 +163,13 @@ export type ProfileUpdatePayload = {
   description?: string;
 };
 
+export type ProfileUpdateFormDataPayload = {
+  name?: string;
+  description?: string;
+  image?: File | null;
+  birth_date?: string | null;
+};
+
 export type ChatAskModel = "gpt" | "claude" | "gemini";
 
 export type ChatAskResponse = {
@@ -198,6 +222,16 @@ export function getProfile(accessToken?: string) {
 
 export function updateProfile(payload: ProfileUpdatePayload, accessToken?: string) {
   return requestPatch<ProfileResponse>("/profile/", payload, accessToken);
+}
+
+export function updateProfileFormData(payload: ProfileUpdateFormDataPayload, accessToken?: string) {
+  const formData = new FormData();
+  if (payload.name !== undefined) formData.append("name", payload.name);
+  if (payload.description !== undefined) formData.append("description", payload.description);
+  if (payload.image) formData.append("image", payload.image);
+  if (payload.birth_date) formData.append("birth_date", payload.birth_date);
+
+  return requestPatchFormData<ProfileResponse>("/profile/", formData, accessToken);
 }
 function getStoredAccessToken(): string {
   if (typeof window === "undefined") return "";

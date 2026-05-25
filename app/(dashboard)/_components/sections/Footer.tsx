@@ -5,8 +5,7 @@ import { FaFacebook, FaInstagramSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 
 const footerLinks = {
-  Product: ["Features", "Pricing", "AI Models", "Mobile App"],
-  Company: ["About Us", "Contact", "Privacy Policy", "Terms of Service"],
+  Company: ["Privacy Policy", "Terms of Service"],
 };
 
 const socialLinks = [
